@@ -5,7 +5,7 @@ import Calender from './Calender'
 import { useAuth } from '@/context/AuthContext'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
-import Loading from './loading'
+import Loading from '@/components/Loading'
 import Login from './Login'
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] })
