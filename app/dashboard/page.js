@@ -2,6 +2,8 @@ import Login from '@/components/Login';
 import Main from '@/components/Main';
 import Dashboard from '@/components/Dashboard';
 import React from 'react'
+import { useAuth } from '@/context/AuthContext';
+import Loading from '@/components/loading';
 
 export const metadata = {
   title: "Journal - Dashboard",
@@ -9,21 +11,10 @@ export const metadata = {
 
 export default function DashboardPage() {
 
-  const isAuthenticated = true
-
-  let children = (
-    <Login />
-  )
-
-  if (isAuthenticated) {
-    children = (
-      <Dashboard />
-    )
-  }
   
   return (
     <Main>
-      {children}
+      <Dashboard />
     </Main>
   )
 }
