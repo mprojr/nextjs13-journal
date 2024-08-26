@@ -2,7 +2,7 @@ import Dashboard from "@/components/Dashboard";
 import Main from "@/components/Main";
 
 export const metadata = {
-    title: "Broodl · Dashboard",
+    title: "Journal · Dashboard",
 };
 
 export default function DashboardPage() {
