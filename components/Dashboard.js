@@ -7,6 +7,7 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
 import Loading from '@/components/Loading'
 import Login from './Login'
+import Journal from '@/components/Journal'
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] })
 
@@ -94,7 +95,7 @@ export default function Dashboard() {
 
   return (
     <div className='flex flex-col flex-1 gap-8 sm:gap-12 md:gap-16 '>
-      <div className='grid grid-cols-3 sm:grid-cols-3 bg-indigo-50 text-indigo-500 p-4 gap-4 rounded-lg '>
+      <div className='grid grid-cols-3 sm:grid-cols-3 bg-teal-coral-1 opacity-85 text-teal-coral-6 p-4 gap-4 rounded-lg '>
         {Object.keys(statuses).map((status, statusIndex) => {
           return (
           <div key={statusIndex} className='flex flex-col gap-1 sm:gap-2 '>
@@ -113,7 +114,7 @@ export default function Dashboard() {
             <button onClick={() => {
               const currentMoodValue = moodIndex + 1
               handleSetMood(currentMoodValue)
-            }} className={'p-4 px-5 rounded-2xl purpleShadow duration-200 bg-indigo-50 hover:bg-[lavender] text-center flex flex-col items-center gap-2 flex-1 '} key={moodIndex}>
+            }} className={'p-4 px-5 rounded-2xl purpleShadow duration-200 bg-teal-coral-1 hover:bg-teal-coral-2 text-center flex flex-col items-center gap-2 flex-1 '} key={moodIndex}>
               <p className='text-4xl sm:text-5xl md:text-6xl '>{moods[mood]}</p>
               <p className={'text-[#1e273c] text-xs sm:text-sm md:text-base  ' + fugaz.className}>{mood}</p>
             </button>
@@ -121,6 +122,7 @@ export default function Dashboard() {
         })}
       </div>
       <Calender completeData={data} handleSetMood={handleSetMood} />
+      <Journal />
     </div>
   )
 }

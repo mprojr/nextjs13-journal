@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .textGradient {
-  background: -webkit-linear-gradient(#4338ca, #818cf8);
+  background: -webkit-linear-gradient(#26c6da, #009fb5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -15,4 +15,17 @@
 .purpleShadow:hover {
   transform: translateX(3px, 3px);
   box-shadow: 0px 0px 1px 1px lavender;
+}
+
+.bg-notebook {
+  background-image: linear-gradient(to bottom, #e0f7fa 85px, transparent 0px);
+  background-size: 100% 85px;
+}
+.sm-bg-notebook {
+  background-image: linear-gradient(to bottom, #e0f7fa 65px, transparent 0px);
+  background-size: 100% 65px;
+}
+
+textarea::placeholder {
+  color: #b2ebf2; /* Light teal for the placeholder text */
 }
