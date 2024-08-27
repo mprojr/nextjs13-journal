@@ -40,7 +40,9 @@ export function AuthProvider({ children }) {
         setLoading(true)
         setCurrentUser(user)
         if (!user) {
-          return
+          console.log("No user is logged in");
+          setLoading(false);
+          return;
         }
 
         // if user exists, fetch data from firestore database

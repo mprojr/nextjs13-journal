@@ -43,7 +43,6 @@ export default function Dashboard() {
     const month = now.getMonth()
     const year = now.getFullYear()
 
-    year
     try {
       const newData = {...userDataObj}
       if (!newData?.[year]) {
