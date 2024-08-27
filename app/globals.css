@@ -26,6 +26,18 @@
   background-size: 100% 65px;
 }
 
+/* Background with notebook lines */
+.bg-notebook-lines {
+  background-color: white; /* Set the background color to white */
+  background-image: 
+    linear-gradient(to bottom, #959595 1px, transparent 1px),
+    linear-gradient(to bottom, transparent 29px, #e0f7fa 30px);
+  background-size: 100% 30px;
+  margin-top: 2%;
+}
+
+/* Optional: Make the textarea slightly transparent to enhance the effect */
 textarea::placeholder {
-  color: #b2ebf2; /* Light teal for the placeholder text */
+  color: #959595;
+  opacity: 0.7;
 }
