@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
   const header = (
     <header className="p-4 sm:p-8 flex items-center justify-between gap-4">
       <Link href={'/'}>
-        <h1 className={'text-base sm:text-lg textGradient ' + opensans.className}>Journal</h1>
+        <h1 className={'text-base sm:text-lg textGradient hover:scale-105 duration-300 ' + opensans.className}>Journal</h1>
       </Link>
       <Logout />
     </header>
