@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { Fugaz_One } from 'next/font/google'
 import Calender from './Calender'
 import { useAuth } from '@/context/AuthContext'
-import { doc, setDoc } from 'firebase/firestore'
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '@/firebase'
 import Loading from '@/components/Loading'
 import Login from './Login'
 import Journal from '@/components/Journal'
+import { Timestamp } from 'firebase/firestore';
+
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] })
 
@@ -16,6 +18,9 @@ export default function Dashboard() {
   const { currentUser, userDataObj, setUserDataObj, loading } = useAuth()
   const [data, setData] = useState({})
   const now = new Date()
+  const [selectedEntry, setSelectedEntry] = useState(null); // To hold the selected journal entry
+
+
 
 
   function countValues() {
@@ -67,7 +72,55 @@ export default function Dashboard() {
     }
   }
 
+  const handleDayClick = async (day) => {
+    if (!currentUser) {
+      console.log('No user is logged in');
+      return;
+    }
+  
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const startOfDay = new Date(year, month, day);
+    const endOfDay = new Date(year, month, day + 1); // End of the selected day
+  
+    try {
+      // Get the user's journal entries for the specific day by querying the createdAt field
+      const userId = currentUser.uid;
+      const journalRef = collection(db, 'users', userId, 'journals');
+  
+      // Query for entries between the start and end of the selected day
+      const q = query(
+        journalRef,
+        where('createdAt', '>=', Timestamp.fromDate(startOfDay)),
+        where('createdAt', '<', Timestamp.fromDate(endOfDay))
+      );
+  
+      const querySnapshot = await getDocs(q);
+  
+      let selectedDayEntry = null;
+  
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        selectedDayEntry = { id: doc.id, ...data }; // Store the selected entry
+      });
+  
+      if (selectedDayEntry) {
+        console.log(`Journal entry for day ${day}:`, selectedDayEntry);
+        setSelectedEntry(selectedDayEntry); // Update state with the selected entry
+      } else {
+        console.log(`No journal entries found for day ${day}`);
+        setSelectedEntry(null); // Clear the entry if no data is found for the day
+      }
+    } catch (error) {
+      console.error('Error fetching journal entries:', error);
+    }
+  };
+  
+  
+  
 
+  
+  
 
   const moods = {
     '&*@#$': '😭',
@@ -91,6 +144,9 @@ export default function Dashboard() {
   if (!currentUser) {
     return <Login />
   }
+
+  console.log("Selected Entry in Dashboard: ", selectedEntry);
+
 
   return (
     <div className='flex flex-col flex-1 gap-8 sm:gap-12 md:gap-16 '>
@@ -120,8 +176,8 @@ export default function Dashboard() {
           )
         })}
       </div>
-      <Calender completeData={data} handleSetMood={handleSetMood} />
-      <Journal />
+      <Calender completeData={data} handleSetMood={handleSetMood} onDayClick={handleDayClick} />
+      <Journal handleDayClick={handleDayClick} selectedEntry={selectedEntry} />
     </div>
   )
 }

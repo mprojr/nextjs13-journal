@@ -11,7 +11,7 @@ const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] });
 
 
 export default function Calendar(props) {
-    const { demo, completeData, handleSetMood } = props
+    const { demo, completeData, onDayClick, handleSetMood } = props
     const now = new Date()
     const currMonth = now.getMonth()
     const [selectedMonth, setSelectMonth] = useState(Object.keys(months)[currMonth])
@@ -83,7 +83,9 @@ export default function Calendar(props) {
 
 
                                 return (
-                                    <div style={{ background: color }} className={'text-xs sm:text-sm border border-solid p-2 flex items-center gap-2 justify-between rounded-lg ' + (isToday ? ' border-black border-2 text-teal-coral-7' : ' border-tealCoral-100') + (color === 'white' ? ' text-teal-coral-6' : ' text-white')} key={dayOfWeekIndex} >
+                                    <div style={{ background: color }} className={'text-xs sm:text-sm border border-solid p-2 flex items-center gap-2 justify-between rounded-lg ' + (isToday ? ' border-black border-2 text-teal-coral-7' : ' border-tealCoral-100') + (color === 'white' ? ' text-teal-coral-6' : ' text-white')} key={dayOfWeekIndex} 
+                                    onClick={() => onDayClick && onDayClick(dayIndex)}
+                                    >
                                         <p>{dayIndex > 0 && dayIndex <= daysInMonth ? dayIndex : ''}</p>
                                     </div>
                                 )
