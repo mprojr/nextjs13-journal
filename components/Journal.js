@@ -1,7 +1,8 @@
 'use client'
 import { Fugaz_One } from 'next/font/google';
 import React, { useState, useEffect } from 'react';
-import { db, Timestamp } from '@/firebase'; // Ensure you have this import
+import { db } from '@/firebase';
+import { Timestamp } from 'firebase/firestore';
 import { collection, addDoc, query, getDocs, where, orderBy } from 'firebase/firestore'; 
 import { useAuth } from '@/context/AuthContext'; // Assuming you have this context for user authentication
 
