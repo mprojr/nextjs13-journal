@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
   )
   const footer = (
     <footer className="p-2 sm:p-8 grid place-items-center">
-      <p className={'text-slate-800 ' + fugaz.className}>© 2024 Martin Rodriguez. All rights reserved.</p>
+      <p className={'text-slate-800 ' + fugaz.className}>© 2024 Martin Rodriguez</p>
     </footer>
   )
 
