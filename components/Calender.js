@@ -5,7 +5,6 @@ import React, { useState } from 'react'
 
 const months = { 'January': 'Jan', 'February': 'Feb', 'March': 'Mar', 'April': 'Apr', 'May': 'May', 'June': 'Jun', 'July': 'Jul', 'August': 'Aug', 'September': 'Sept', 'October': 'Oct', 'November': 'Nov', 'December': 'Dec' }
 const monthsArr = Object.keys(months)
-const now = new Date()
 const dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] });
@@ -22,24 +21,26 @@ export default function Calendar(props) {
     const data = completeData?.[selectedYear]?.[numericMonth] || {}
 
     function handleIncrementMonth(val) {
-        // value +1 -1
         // if we hit the bounds of the months, then we can just adjust the year that is displayed instead
         if (numericMonth + val < 0) {
-            // set month value = 11 and decrement the year
-            setSelectedYear(curr => curr - 1)
-            setSelectMonth(monthsArr[monthsArr.length - 1])
+            // set month value = 11 (December) and decrement the year
+            setSelectedYear(curr => curr - 1);
+            setSelectMonth(monthsArr[11]); // December
         } else if (numericMonth + val > 11) {
-            // set month val = 0 and increment the year
-            setSelectedYear(curr => curr + 1)
-            setSelectMonth(monthsArr[0])
+            // set month value = 0 (January) and increment the year
+            setSelectedYear(curr => curr + 1);
+            setSelectMonth(monthsArr[0]); // January
         } else {
-            setSelectMonth(monthsArr[numericMonth + val])
+            // For normal month increments within the year
+            setSelectMonth(monthsArr[numericMonth + val]);
         }
     }
+    
 
     const monthNow = new Date(selectedYear, Object.keys(months).indexOf(selectedMonth), 1)
     const firstDayOfMonth = monthNow.getDay()
-    const daysInMonth = new Date(selectedYear, Object.keys(selectedMonth).indexOf(selectedMonth) + 1, 0).getDate()
+    const daysInMonth = new Date(selectedYear, numericMonth + 1, 0).getDate()
+
 
     const daysToDisplay = firstDayOfMonth + daysInMonth
 
@@ -61,11 +62,11 @@ export default function Calendar(props) {
                     return (
                         <div key={rowIndex} className='grid grid-cols-7 gap-1'>
                             {dayList.map((dayOfWeek, dayOfWeekIndex) => {
-                                let dayIndex = (rowIndex * 7) + dayOfWeekIndex - (firstDayOfMonth - 1)
+                                let dayIndex = (rowIndex * 7) + dayOfWeekIndex - firstDayOfMonth + 1;
 
                                 let dayDisplay = dayIndex > daysInMonth ? false : (row === 0 && dayOfWeekIndex < firstDayOfMonth) ? false : true
 
-                                let isToday = dayIndex === now.getDate()
+                                let isToday = (dayIndex === now.getDate() && numericMonth === now.getMonth() && selectedYear === now.getFullYear());
 
                                 if (!dayDisplay) {
                                     return (
@@ -73,15 +74,17 @@ export default function Calendar(props) {
                                     )
                                 }
 
-                                let color = demo ?
+                                let color = demo && dayIndex > 0 && dayIndex <= daysInMonth ?
                                     gradients.tealCoral[baseRating[dayIndex]] :
                                     dayIndex in data ?
                                         gradients.tealCoral[data[dayIndex]] :
-                                        'white'
+                                        'white';
+
+
 
                                 return (
                                     <div style={{ background: color }} className={'text-xs sm:text-sm border border-solid p-2 flex items-center gap-2 justify-between rounded-lg ' + (isToday ? ' border-black border-2 text-teal-coral-7' : ' border-tealCoral-100') + (color === 'white' ? ' text-teal-coral-6' : ' text-white')} key={dayOfWeekIndex} >
-                                        <p>{dayIndex}</p>
+                                        <p>{dayIndex > 0 && dayIndex <= daysInMonth ? dayIndex : ''}</p>
                                     </div>
                                 )
                             })}

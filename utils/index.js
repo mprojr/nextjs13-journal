@@ -32,7 +32,76 @@ export const baseRating = {
   "40": 5, "41": 4, "42": 1, "43": 3,
 }
 
-export const demoData = {
-  "15": 2, "16": 4, "17": 1, "18": 3, "19": 5,
-  "20": 2, "21": 4, "22": 1, "23": 3, "24": 5,
+const Data = {
+      2: 4,
+      4: 4,
+      5: 5,
+      6: 2,
+      8: 4,
+      11: 3,
+      14: 5,
+      15: 2,
+      16: 4,
+      17: 1,
+      18: 3,
+      19: 5,
+      20: 2,
+      21: 4,
+      22: 1,
+      23: 3,
+      24: 5,
 }
+
+function createMonthData(dataObject) {
+  const monthData = {};
+  Object.keys(dataObject).forEach((day) => {
+    monthData[day] = dataObject[day]; // Map days from dataObject
+  });
+  return monthData;
+}
+
+export const demoData = {
+  2024: {
+    0:createMonthData(Data),
+    1:createMonthData(Data),
+    2:createMonthData(Data),
+    3:createMonthData(Data),
+    4:createMonthData(Data),
+    5:createMonthData(Data),
+    6:createMonthData(Data),
+    7:createMonthData(Data),
+    8:createMonthData(Data),
+    9:createMonthData(Data),
+    10:createMonthData(Data),
+    11:createMonthData(Data),
+  },
+  2025: {
+    
+    0:createMonthData(Data),
+    1:createMonthData(Data),
+    2:createMonthData(Data),
+    3:createMonthData(Data),
+    4:createMonthData(Data),
+    5:createMonthData(Data),
+    6:createMonthData(Data),
+    7:createMonthData(Data),
+    8:createMonthData(Data),
+    9:createMonthData(Data),
+    10:createMonthData(Data),
+    11:createMonthData(Data),
+  },
+  2026: {
+    0:createMonthData(Data),
+    1:createMonthData(Data),
+    2:createMonthData(Data),
+    3:createMonthData(Data),
+    4:createMonthData(Data),
+    5:createMonthData(Data),
+    6:createMonthData(Data),
+    7:createMonthData(Data),
+    8:createMonthData(Data),
+    9:createMonthData(Data),
+    10:createMonthData(Data),
+    11:createMonthData(Data),
+  }
+};
