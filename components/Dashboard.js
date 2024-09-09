@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Fugaz_One } from 'next/font/google'
 import Calender from './Calender'
 import { useAuth } from '@/context/AuthContext'
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
 import { db } from '@/firebase'
 import Loading from '@/components/Loading'
 import Login from './Login'
@@ -44,33 +44,37 @@ export default function Dashboard() {
   }
 
   async function handleSetMood(mood) {
-    const day = now.getDate()
-    const month = now.getMonth()
-    const year = now.getFullYear()
-
-    try {
-      const newData = {...userDataObj}
-      if (!newData?.[year]) {
-        newData[year] = {}
-      }
-      if (!newData?.[year]?.[month])
-      newData[year][month] = {}
+    const day = now.getDate();
+    const month = now.getMonth();
+    const year = now.getFullYear();
   
-      newData[year][month][day] = mood
-      setUserDataObj(newData)
-      const docRef = doc(db, 'users', currentUser.uid)
-      const res = await setDoc(docRef, {
+    try {
+      const newData = { ...userDataObj };
+      if (!newData?.[year]) {
+        newData[year] = {};
+      }
+      if (!newData?.[year]?.[month]) {
+        newData[year][month] = {};
+      }
+  
+      newData[year][month][day] = mood;
+      setUserDataObj(newData);
+      
+      // Fixing the doc usage here
+      const docRef = doc(db, 'users', currentUser.uid); // Ensure this is correct
+      await setDoc(docRef, {
         [year]: {
           [month]: {
-            [day]: mood
-          }
-        }
-      }, { merge: true }) /* merges data from before with new */
-
-    } catch(err) {
-      console.log('Failed to set data: ', err.message)
+            [day]: mood,
+          },
+        },
+      }, { merge: true }); // Merge data
+  
+      console.log('Mood set successfully');
+    } catch (err) {
+      console.log('Failed to set data: ', err.message);
     }
-  }
+  }  
 
   const handleDayClick = async (day) => {
     if (!currentUser) {
